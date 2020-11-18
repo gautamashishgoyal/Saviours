@@ -1,0 +1,105 @@
+html,
+body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	background:linear-gradient( red,black);
+	font-family: sans-serif;
+	font-weight: 100;
+}
+h1{
+    position :fixed;
+    right:40%;
+    font-size: 30px;
+}
+.Search{
+    position :relative;
+    left:37%;
+    top:5%;
+    font-size: 30px;
+    background-color: rgba(0, 0, 0);
+    color: rgb(255, 255, 255);
+    text-align: center;
+}
+.signout{
+    background: #080808;
+  text-decoration: none;
+  color: #fff;
+  font-size: 18px;
+  position: absolute;
+  top: 2%;
+  left:85%;
+  border: #fff;
+  border-radius: 2px;
+  padding: 14px 40px;
+  border:1px solid whitesmoke
+}
+.Search::placeholder
+{
+    color: rgba(255, 255, 255, 0.692);
+    text-align: center;
+}
+.container {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+table {
+	width: 800px;
+	border-collapse:collapse;
+	overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    background: #ffffff;
+    color:rgba(12, 11, 11, 0.801);
+}
+
+td {
+	padding: 15px;
+    background-color: rgba(255, 255, 255, 0.021);
+}
+
+
+
+thead tr{
+
+        background-color: #000105d0;
+        color: white;
+       
+}
+tr:hover {
+    background-color: none !important;   
+}
+tr:nth-child(even){
+    background-color: rgba(100, 91, 91, 0.342);
+    color:rgba(0, 0, 0, 0.603);
+}
+tr:hover {
+    background-color: #9c9c9b;
+  }
+#myVideo {
+    min-width: 100%; 
+    min-height: 20%; 
+  
+    /* Setting width & height to auto prevents the browser from stretching or squishing the video */
+    width: auto;
+    height: auto;
+  
+    /* Center the video */
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    opacity: 50%;
+}
+
+.back{
+    background-color: black;
+    color: white;
+    position: absolute;
+    left: 93%;
+    top: 5%;
+    font-size: 22px;
+}

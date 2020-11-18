@@ -1,0 +1,148 @@
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet"
+        href="coronapage.css">
+</head>
+
+<body> 
+
+  <input  class="Search" id="searchBar" placeholder= " Search... &#128269"></input>
+  <button id="signout" class="signout" type="signout">Sign Out</button>
+
+    
+        <table class="container">
+          <thead>
+            <tr>
+              <td>Code</td>
+              <td>Hospital Name</td>
+              <td>Name of Vaccine</td>
+              <td>No. of Beds</td>
+              
+              <td>Quantity</td>
+            </tr>
+          </thead>
+          <tbody id="table_body">
+
+          </tbody>
+        </table>
+      
+
+      <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+      
+      <script>
+        var firebaseConfig = {
+          apiKey: "AIzaSyD81n9iY34KfiknZyDp39aNBdt-HaSgs-s",
+          authDomain: "project-5ddf8.firebaseapp.com",
+          databaseURL: "https://project-5ddf8.firebaseio.com",
+          projectId: "project-5ddf8",
+          storageBucket: "project-5ddf8.appspot.com",
+          messagingSenderId: "909886732948",
+          appId: "1:909886732948:web:e077aad4d06a39e5609281",
+          measurementId: "G-8M9TMWW95C"
+        };
+      
+        
+            
+        firebase.initializeApp(firebaseConfig);
+
+//----------------Show Tables----------------
+
+var database= firebase.database();
+var ref = database.ref("user").once("value").then(function (data) {
+var val = data.val();
+var keys = Object.keys(val);
+
+for (var i = 0; i < keys.length; i++) {
+  var key = keys[i];
+  var codev = val[key];
+  var codevkeys = Object.keys(codev);
+
+  for(var j=0; j< codevkeys.length; j++)
+   {
+       var codevkey = codevkeys[j];
+       var code= codev[codevkey].Code;
+       var hospitalname= codev[codevkey].Hospitalname;
+       var nameofvaccine= codev[codevkey].Nameofvaccine;
+       var noofbeds= codev[codevkey].Noofbeds;
+       var quantity= codev[codevkey].Quantity;
+
+      $("#table_body").append("<tr><td>" + code + "</td><td>" + hospitalname +
+         "</td><td>" + nameofvaccine + "</td><td>" + noofbeds + "</td><td>" +  quantity + "</td></tr>");
+    }
+}
+});
+</script>
+<script>
+
+//------------------Search Bar--------------
+
+var bb=[];
+
+database.ref("user").once("value").then(function (data) {
+     val  = data.val();
+     keys = Object.keys(val);
+    for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
+        var bbdata=val[key];
+        var bbkeys=Object.keys(bbdata);
+        for(var j=0;j<bbkeys.length;j++){
+            var bbkey=bbkeys[j];
+bb.push(bbdata[bbkey]);
+        }
+    }
+
+    console.log(bb[0]);
+    searchBar.addEventListener("keyup", (e) => {
+    const searchString = e.target.value.toLowerCase();
+    document.getElementById("table_body").innerHTML="";
+    for(var k=0;k<bb.length;k++){
+        if(bb[k].Hospitalname.toLowerCase().includes(searchString)||bb[k].Nameofvaccine.toLowerCase().includes(searchString))
+        {
+                var code= bb[k].Code;
+                var hospitalname= bb[k].Hospitalname;
+                var nameofvaccine= bb[k].Nameofvaccine;
+                var noofbeds= bb[k].Noofbeds;
+                var quantity= bb[k].Quantity;
+
+                
+
+                $("#table_body").append("<tr><td>" + code + "</td><td>" + hospitalname +
+         "</td><td>" + nameofvaccine + "</td><td>" + noofbeds + "</td><td>" +  quantity + "</td></tr>");
+
+        }
+    }
+});
+})
+
+//--------------------Sign Out button-------------
+
+
+document.getElementById("signout").onclick = function(){
+
+console.log(firebase.auth().currentUser);
+
+firebase.auth().signOut().then(function() {
+  window.alert("Signed Out Successfully");
+  window.location.replace("./custcoronasignup (1).html");
+}).catch(function(error) {
+  window.alert("Sign Out Failed");
+});
+}
+
+
+
+
+
+
+
+    </script>
+
+<script src= "https://code.jquery.com/jquery-3.1.0.js"></script> 
+
+
+
+</body>
+</html>

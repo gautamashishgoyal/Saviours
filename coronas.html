@@ -1,0 +1,224 @@
+<html>
+	<head>
+					<title>
+						SemesterProject
+                    </title>
+                    <link rel="stylesheet"
+        href="coronapage.css">
+				
+							
+
+	</head>
+					<body>
+            <div >
+              <button class="back" onclick="window.location.href='bloodbankHf.html';">Back</button>
+            </div>
+
+    
+
+                 
+                    <table class="container">
+                      <thead>
+                        <tr>
+                          <td>Code</td>
+                          <td>Hospital Name</td>
+                          <td>Name of Vaccine</td>
+                          <td>No. of Beds</td>
+                          
+                          <td>Quantity</td>
+                        </tr>
+                      </thead>
+                      <tbody id="table_body">
+
+                      </tbody>
+                    </table>
+                  
+									
+              </div>
+
+              <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+              <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+              <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-database.js"></script>
+              
+              <script>
+                var firebaseConfig = {
+                  apiKey: "AIzaSyD81n9iY34KfiknZyDp39aNBdt-HaSgs-s",
+                  authDomain: "project-5ddf8.firebaseapp.com",
+                  databaseURL: "https://project-5ddf8.firebaseio.com",
+                  projectId: "project-5ddf8",
+                  storageBucket: "project-5ddf8.appspot.com",
+                  messagingSenderId: "909886732948",
+                  appId: "1:909886732948:web:e077aad4d06a39e5609281",
+                  measurementId: "G-8M9TMWW95C"
+                };
+              
+                
+                    
+                firebase.initializeApp(firebaseConfig);
+
+                firebase.auth().onAuthStateChanged(function(user) {
+
+                              if(user)
+                              {
+
+                                document.getElementById("table_body").innerHTML="";
+                  var user=firebase.auth().currentUser;
+                  var uid=user.uid;
+                  var database= firebase.database();
+                  var ref = database.ref("user/"+uid).once("value").then(function (data) {
+                  var val = data.val();
+                  var keys = Object.keys(val);
+
+                  for (var i = 0; i < keys.length; i++) {
+                  var key = keys[i];
+                  var code= val[key].Code
+                  var hospitalname= val[key].Hospitalname;
+                  var nameofvaccine= val[key].Nameofvaccine;
+                  var noofbeds= val[key].Noofbeds;
+                  var quantity= val[key].Quantity;
+
+                  $("#table_body").append("<tr><td>" + code + "</td><td>" + hospitalname +
+                      "</td><td>" + nameofvaccine + "</td><td>" + noofbeds + "</td><td>" + quantity + "</td></tr>");
+
+
+}
+})
+                              }
+                              else{
+                              console.log("signed out");
+                              }
+                              })
+              
+                // var codev,hospitalnamev,noofbedsv,nameofvaccinev,quantityv;
+
+                // function ready(){
+
+                //    codev= document.getElementById("code").value;
+                //    hospitalnamev=document.getElementById("hospitalname").value;
+                //    noofbedsv= document.getElementById("noofbeds").value;
+                //    nameofvaccinev= document.getElementById("nameofvaccine").value;
+                //    quantityv= document.getElementById("quantity").value;
+                // }
+              
+                // //---------------Insert button--------------
+
+                // document.getElementById("insert").onclick=function(){
+                //   ready();
+
+                //   var user= firebase.auth().currentUser;
+                //   var uid= user.uid;
+
+                //   window.alert("Working");
+                //   firebase.database().ref('user/'+ uid + '/'+ codev).set({
+                //     Code: codev,
+                //     Hospitalname: hospitalnamev,
+                //     Noofbeds: noofbedsv,
+                //     Nameofvaccine: nameofvaccinev,
+                //     Quantity: quantityv
+                //     })
+                // }
+
+                // //--------------Selection button----------
+
+                // document.getElementById("select").onclick=function(){
+                //   ready();
+
+                //   var user= firebase.auth().currentUser;
+                //   var uid= user.uid;
+
+                //   window.alert("Working");
+                //   firebase.database().ref('user/'+ uid + '/'+ codev).on("value",function(snapshot){
+                //     document.getElementById("hospitalname").value= snapshot.val().Hospitalname;
+                //     document.getElementById("noofbeds").value= snapshot.val().Noofbeds;
+                //     document.getElementById("nameofvaccine").value= snapshot.val().Nameofvaccine;
+                //     document.getElementById("quantity").value= snapshot.val().Quantity;
+                //   })
+                // }
+
+                // //-------------Update button--------------
+
+                // document.getElementById("update").onclick=function(){
+                //   ready();
+
+                //   var user= firebase.auth().currentUser;
+                //   var uid= user.uid;
+
+                //   window.alert("Working");
+                //   firebase.database().ref('user/'+ uid + '/'+ codev).update({
+                //     Hospitalname: hospitalnamev,
+                //     Noofbeds: noofbedsv,
+                //     Nameofvaccine: nameofvaccinev,
+                //     Quantity: quantityv
+                   
+                //     })
+                // }
+
+                // //-------------Delete button--------------
+
+                // document.getElementById("delete").onclick=function(){
+                //   ready();
+
+                //   var user= firebase.auth().currentUser;
+                //   var uid= user.uid;
+
+                //   window.alert("Working");
+                //   firebase.database().ref('user/'+ uid + '/'+ codev).remove();
+                // }
+
+                //------------Show Tables----------------
+
+//                 document.getElementById("show").onclick = function(){
+
+
+//                   document.getElementById("table_body").innerHTML="";
+//                   var user=firebase.auth().currentUser;
+//                   var uid=user.uid;
+//                   var database= firebase.database();
+//                   var ref = database.ref("user/"+uid).once("value").then(function (data) {
+//                   var val = data.val();
+//                   var keys = Object.keys(val);
+
+//                   for (var i = 0; i < keys.length; i++) {
+//                   var key = keys[i];
+//                   var code= val[key].Code
+//                   var hospitalname= val[key].Hospitalname;
+//                   var nameofvaccine= val[key].Nameofvaccine;
+//                   var noofbeds= val[key].Noofbeds;
+//                   var quantity= val[key].Quantity;
+
+//                   $("#table_body").append("<tr><td>" + code + "</td><td>" + hospitalname +
+//                       "</td><td>" + nameofvaccine + "</td><td>" + noofbeds + "</td><td>" + quantity + "</td></tr>");
+
+
+// }
+// })
+// }
+
+ //--------------------Sign Out button-------------
+
+
+              // document.getElementById("signout").onclick = function(){
+
+              // console.log(firebase.auth().currentUser);
+
+              // firebase.auth().signOut().then(function() {
+              //   window.alert("Signed Out Successfully");
+              //   window.location.replace("./SigninBloodBank.html");
+              // }).catch(function(error) {
+              //   window.alert("Sign Out Failed");
+              // });
+              // }
+
+
+                
+              
+               </script>
+
+<script src= "https://code.jquery.com/jquery-3.1.0.js"></script>
+									
+
+
+		
+
+	</body>
+</html>

@@ -1,0 +1,268 @@
+<html>
+	<head>
+					<title>
+						SemesterProject
+          </title>
+          <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+    <title>Au Register Forms by Colorlib</title>
+
+    <!-- Icons font CSS-->
+    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="css/main.css" rel="stylesheet" media="all">
+				
+							
+
+	</head>
+					<body>
+
+            
+
+
+            
+				
+							<div id="FormContainer">
+                <div id="header"></div>
+                <div class="page-wrapper bg-gra-01 p-t-180 p-b-100 font-poppins">
+                  <button id="signout" class="sign btn--signout btn--white" type="signout">Sign Out</button>
+                  <div class="wrapper wrapper--w780">
+                      <div class="card card-3">
+                          <div class="card-heading"></div>
+                          <div class="card-body">
+                              <h2 class="title">Update Info</h2>
+                              <div>
+                                  <div class="input-group">
+                                      <input class="input--style-3" type="code" placeholder="Code" id="code">
+                                  </div>
+                                  <div class="input-group">
+                                      <input class="input--style-3 " type="BloodbankName" placeholder="Blood Bank Name" id="bloodbankname">
+                                  </div>
+                                  <div class="input-group">
+                                      <input class="input--style-3" type="Bloodtype" placeholder="Bloodtype" id="bloodtype">
+                                  </div>
+                                  <div class="input-group">
+                                      <input class="input--style-3" type="Quantity" placeholder="Quantity" id="quantity">
+                                  </div>
+                                  <div class="p-t-10">
+                                      <button id="insert" class="btn btn--insert btn--green" type="Insert">Insert</button>
+                                      <button id="select" class="btn btn--select btn--green" type="Select">Select</button>
+                                      <button id="update" class="btn btn--update btn--green" type="Update">Update</button>
+                                      <button id="delete" class="btn btn--delete btn--green" type="Delete">Delete</button>
+                                      <button id="show"   class="bttn btn--show btn--green" type="show">Show Tables</button>
+                                  </div>
+                                </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+									                
+
+                  
+                
+									
+              </div>
+
+    <!-- Jquery JS-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <!-- Vendor JS-->
+    <script src="vendor/select2/select2.min.js"></script>
+    <script src="vendor/datepicker/moment.min.js"></script>
+    <script src="vendor/datepicker/daterangepicker.js"></script>
+
+    <!-- Main JS-->
+    <script src="js/global.js"></script>
+
+              <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+              <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+              <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-database.js"></script>
+              
+              <script>
+                var firebaseConfig = {
+                    apiKey: "AIzaSyBdtzn_0Ls0RQ1cVaQ3ShQLEvEtwSDFbDk",
+                    authDomain: "bloodbank-6f4d9.firebaseapp.com",
+                    databaseURL: "https://bloodbank-6f4d9.firebaseio.com",
+                    projectId: "bloodbank-6f4d9",
+                    storageBucket: "bloodbank-6f4d9.appspot.com",
+                    messagingSenderId: "871953328183",
+                    appId: "1:871953328183:web:a31ceb3c800f907788b7b2"
+                };
+              
+                
+                    
+                firebase.initializeApp(firebaseConfig);
+
+                firebase.auth().onAuthStateChanged(function(user) {
+
+                  if(user)
+                  {
+
+                  var user= firebase.auth().currentUser;
+
+                  var uid= user.uid;
+                  console.log(uid);
+                  }
+                  else{
+                    console.log("signed out");
+                  }
+               })
+               
+                
+
+                
+                
+
+              
+                var codev,bloodbanknamev,bloodtypev,quantityv;
+
+                function ready(){
+
+                   codev= document.getElementById("code").value;
+                   bloodbanknamev=document.getElementById("bloodbankname").value;
+                   bloodtypev= document.getElementById("bloodtype").value;
+                   quantityv= document.getElementById("quantity").value;
+                }
+              
+                //---------------Insert button--------------
+
+
+
+                document.getElementById("insert").onclick=function(){
+                  ready();
+
+                  var user= firebase.auth().currentUser;
+                  var uid= user.uid;
+
+
+                  window.alert("Working");
+                  firebase.database().ref('user/'+ uid + '/'+ codev).set({
+                    Code: codev,
+                    Bloodbankname: bloodbanknamev,
+                    Bloodtype: bloodtypev,
+                    Quantity: quantityv
+                    })
+                  
+                }
+
+                //--------------Selection button----------
+
+                document.getElementById("select").onclick=function(){
+                  ready();
+
+                  var user= firebase.auth().currentUser;
+                  var uid= user.uid;
+                  window.alert("Working");
+                  firebase.database().ref('user/'+ uid + '/'+ codev).on("value",function(snapshot){
+                    document.getElementById("bloodbankname").value= snapshot.val().Bloodbankname;
+                    document.getElementById("bloodtype").value= snapshot.val().Bloodtype;
+                    document.getElementById("quantity").value= snapshot.val().Quantity;
+                  })
+                }
+
+                //-------------Update button--------------
+
+                document.getElementById("update").onclick=function(){
+                  ready();
+
+                  var user= firebase.auth().currentUser;
+                  var uid= user.uid;
+
+                  window.alert("Working");
+                  firebase.database().ref('user/'+ uid + '/'+ codev).update({
+                    Bloodbankname: bloodbanknamev,
+                    Bloodtype: bloodtypev,
+                    Quantity: quantityv
+                   
+                    })
+                }
+
+                //-------------Delete button--------------
+
+                document.getElementById("delete").onclick=function(){
+                  ready();
+
+                  var user= firebase.auth().currentUser;
+                  var uid= user.uid;
+
+                  window.alert("Working");
+                  firebase.database().ref('user/'+ uid + '/'+ codev).remove();
+                }
+
+            //---------------Show Table Button--------------
+                
+                document.getElementById("show").onclick = function(){
+
+                  window.location.replace("./bloods.html");
+
+
+        //     document.getElementById("table_body").innerHTML="";
+        //     var user=firebase.auth().currentUser;
+        //     var uid=user.uid;
+        //     var database= firebase.database();
+        //     var ref = database.ref("user/"+uid).once("value").then(function (data) {
+        //     var val = data.val();
+        //     var keys = Object.keys(val);
+
+        //     for (var i = 0; i < keys.length; i++) {
+        //       var key = keys[i];
+        //                   var code= val[key].Code
+        //                   var bloodbankname= val[key].Bloodbankname;
+        //                   var bloodtype= val[key].Bloodtype;
+        //                   var quantity= val[key].Quantity;
+
+        //                   $("#table_body").append("<tr><td>" + code + "</td><td>" + bloodbankname +
+        //                      "</td><td>" + bloodtype + "</td><td>" + quantity + "</td></tr>");
+
+
+        //     }
+        //   })
+         }
+      
+
+        //--------------------Sign Out button-------------
+
+
+        document.getElementById("signout").onclick = function(){
+
+console.log(firebase.auth().currentUser);
+
+firebase.auth().signOut().then(function() {
+  window.alert("Signed Out Successfully");
+  window.location.replace("./SigninBloodBank (1).html");
+}).catch(function(error) {
+  window.alert("Sign Out Failed");
+});
+}
+
+
+
+
+
+                  
+                </script>
+
+                <script src= "https://code.jquery.com/jquery-3.1.0.js"></script> 
+                
+
+
+									
+
+
+		
+
+	</body>
+</html>

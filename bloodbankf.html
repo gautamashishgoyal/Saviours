@@ -1,0 +1,143 @@
+<html>
+    <head>
+        <title></title>
+        <link rel="stylesheet"
+        href="bloodbank.css">
+    </head>
+         <body>
+         
+          
+          <input class="Search" id="searchBar" placeholder= " Search... &#128269"></input>
+          <button id="signout" class="signout" type="signout">Sign Out</button>
+                 
+                    <table class="container">
+                      <thead>
+                        <tr>
+                          <td>Code</td>
+                          <td>Blood Bank Name</td>
+                          <td>Blood Type</td>
+                          <td>Quantity</td>
+                        </tr>
+                      </thead>
+                      <tbody id="table_body">
+
+                      </tbody>
+                    </table>
+                  
+
+              <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+              <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+              <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+
+
+              <script>
+                var firebaseConfig = {
+                    apiKey: "AIzaSyBdtzn_0Ls0RQ1cVaQ3ShQLEvEtwSDFbDk",
+                    authDomain: "bloodbank-6f4d9.firebaseapp.com",
+                    databaseURL: "https://bloodbank-6f4d9.firebaseio.com",
+                    projectId: "bloodbank-6f4d9",
+                    storageBucket: "bloodbank-6f4d9.appspot.com",
+                    messagingSenderId: "871953328183",
+                    appId: "1:871953328183:web:a31ceb3c800f907788b7b2"
+                };
+              
+                
+                    
+                firebase.initializeApp(firebaseConfig);
+
+// --------------------Show Table----------------------
+
+var database= firebase.database();
+var ref = database.ref("user").once("value").then(function (data) {
+var val = data.val();
+var keys = Object.keys(val);
+
+for (var i = 0; i < keys.length; i++) {
+  var key = keys[i];
+  var codev = val[key];
+  var codevkeys = Object.keys(codev);
+
+  for(var j=0; j< codevkeys.length; j++)
+   {
+       var codevkey = codevkeys[j];
+       var code= codev[codevkey].Code;
+       var bloodbankname= codev[codevkey].Bloodbankname;
+       var bloodtype= codev[codevkey].Bloodtype;
+       var quantity= codev[codevkey].Quantity;
+
+      $("#table_body").append("<tr><td>" + code + "</td><td>" + bloodbankname +
+         "</td><td>" + bloodtype + "</td><td>" + quantity + "</td></tr>");
+    }
+}
+});
+</script>
+<script>
+
+      //--------------------------------Search Bar----------------------------
+
+      var bb=[];
+
+database.ref("user").once("value").then(function (data) {
+     val  = data.val();
+     keys = Object.keys(val);
+    for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
+        var bbdata=val[key];
+        var bbkeys=Object.keys(bbdata);
+        for(var j=0;j<bbkeys.length;j++){
+            var bbkey=bbkeys[j];
+bb.push(bbdata[bbkey]);
+        }
+    }
+
+    console.log(bb[0]);
+    searchBar.addEventListener("keyup", (e) => {
+    const searchString = e.target.value.toLowerCase();
+    document.getElementById("table_body").innerHTML="";
+    for(var k=0;k<bb.length;k++){
+        if(bb[k].Bloodbankname.toLowerCase().includes(searchString)||bb[k].Bloodtype.toLowerCase().includes(searchString))
+        {
+            var code= bb[k].Code;
+                var bloodbankname= bb[k].Bloodbankname;
+                var bloodtype= bb[k].Bloodtype;
+                var quantity= bb[k].Quantity;
+
+                
+
+                  $("#table_body").append("<tr><td>" + code + "</td><td>" + bloodbankname +
+                    "</td><td>" + bloodtype + "</td><td>" + quantity + "</td></tr>");
+
+        }
+    }
+});
+})
+
+//--------------------Sign Out button-------------
+
+
+document.getElementById("signout").onclick = function(){
+
+console.log(firebase.auth().currentUser);
+
+firebase.auth().signOut().then(function() {
+  window.alert("Signed Out Successfully");
+  window.location.replace("./custbloodbanksignup (1).html");
+}).catch(function(error) {
+  window.alert("Sign Out Failed");
+});
+}
+
+
+
+
+
+                  
+                </script>
+
+
+ </script>
+
+                        <script src= "https://code.jquery.com/jquery-3.1.0.js"></script> 
+                        
+            </body>
+            </html>

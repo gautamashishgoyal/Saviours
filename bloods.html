@@ -1,0 +1,178 @@
+<html>
+	<head>
+					<title>
+						SemesterProject
+					</title>
+                    <link rel="stylesheet"
+                    href="bloodbank.css">
+							
+
+	</head>
+					<body>
+
+            <div >
+              <button class="back" onclick="window.location.href='bloodbankHf.html';">Back</button>
+            </div>
+
+
+            
+						
+                  
+                    <table class="container">
+                      <thead>
+                        <tr>
+                          <td>Code</td>
+                          <td>Blood Bank Name</td>
+                          <td>Blood Type</td>
+                          <td>Quantity</td>
+                        </tr>
+                      </thead>
+                      <tbody id="table_body">
+
+                      </tbody>
+                    </table>
+                  
+									
+              </div>
+
+              <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+              <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+              <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-database.js"></script>
+              
+              <script>
+                var firebaseConfig = {
+                    apiKey: "AIzaSyBdtzn_0Ls0RQ1cVaQ3ShQLEvEtwSDFbDk",
+                    authDomain: "bloodbank-6f4d9.firebaseapp.com",
+                    databaseURL: "https://bloodbank-6f4d9.firebaseio.com",
+                    projectId: "bloodbank-6f4d9",
+                    storageBucket: "bloodbank-6f4d9.appspot.com",
+                    messagingSenderId: "871953328183",
+                    appId: "1:871953328183:web:a31ceb3c800f907788b7b2"
+                };
+              
+                
+                    
+                firebase.initializeApp(firebaseConfig);
+
+                firebase.auth().onAuthStateChanged(function(user) {
+
+                      if(user)
+                      {
+
+                        document.getElementById("table_body").innerHTML="";
+var user=firebase.auth().currentUser;
+var uid=user.uid;
+var database= firebase.database();
+var ref = database.ref("user/"+uid).once("value").then(function (data) {
+var val = data.val();
+var keys = Object.keys(val);
+
+for (var i = 0; i < keys.length; i++) {
+  var key = keys[i];
+              var code= val[key].Code
+              var bloodbankname= val[key].Bloodbankname;
+              var bloodtype= val[key].Bloodtype;
+              var quantity= val[key].Quantity;
+
+              $("#table_body").append("<tr><td>" + code + "</td><td>" + bloodbankname +
+                 "</td><td>" + bloodtype + "</td><td>" + quantity + "</td></tr>");
+
+
+
+}
+})
+                      }
+                      else{
+                        console.log("signed out");
+                      }
+                      })
+
+                    
+              
+                // var codev,bloodbanknamev,bloodtypev,quantityv;
+
+                // function ready(){
+
+                //    codev= document.getElementById("code").value;
+                //    bloodbanknamev=document.getElementById("bloodbankname").value;
+                //    bloodtypev= document.getElementById("bloodtype").value;
+                //    quantityv= document.getElementById("quantity").value;
+                // }
+              
+                // //---------------Insert button--------------
+
+                // document.getElementById("insert").onclick=function(){
+                //   ready();
+                //   window.alert("Working");
+                //   firebase.database().ref('Information/'+ codev).set({
+                //     Code: codev,
+                //     Bloodbankname: bloodbanknamev,
+                //     Bloodtype: bloodtypev,
+                //     Quantity: quantityv
+                //     })
+                // }
+
+                // //--------------Selection button----------
+
+                // document.getElementById("select").onclick=function(){
+                //   ready();
+                //   window.alert("Working");
+                //   firebase.database().ref('Information/'+ codev).on("value",function(snapshot){
+                //     document.getElementById("bloodbankname").value= snapshot.val().Bloodbankname;
+                //     document.getElementById("bloodtype").value= snapshot.val().Bloodtype;
+                //     document.getElementById("quantity").value= snapshot.val().Quantity;
+                //   })
+                // }
+
+                // //-------------Update button--------------
+
+                // document.getElementById("update").onclick=function(){
+                //   ready();
+                //   window.alert("Working");
+                //   firebase.database().ref('Information/'+ codev).update({
+                //     Bloodbankname: bloodbanknamev,
+                //     Bloodtype: bloodtypev,
+                //     Quantity: quantityv
+                   
+                //     })
+                // }
+
+                // //-------------Delete button--------------
+
+                // document.getElementById("delete").onclick=function(){
+                //   ready();
+                //   window.alert("Working");
+                //   firebase.database().ref('Information/'+ codev).remove();
+                // }
+
+                
+                
+                
+                
+                
+                //---------------Show Table Button--------------
+              
+                // window.addEventListener("load", function(){
+                  
+                // })
+
+
+</script>
+  
+
+
+
+                  
+              
+
+                <script src= "https://code.jquery.com/jquery-3.1.0.js"></script> 
+                
+
+                
+									
+
+
+		
+
+	</body>
+</html>
